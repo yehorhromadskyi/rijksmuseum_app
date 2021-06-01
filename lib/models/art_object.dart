@@ -3,5 +3,11 @@ class ArtObject {
 
   ArtObject(this.title);
 
-  ArtObject.fromJson(Map<String, dynamic> json) : title = json['title'];
+  ArtObject.fromJson(
+    Map<String, dynamic> json,
+  ) : title = json['title'];
+
+  Map<String, dynamic> toJson() => {
+        'title': title,
+      };
 }

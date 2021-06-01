@@ -1,6 +1,3 @@
-# Project specific
-lib/secrets.dart
-
 # Miscellaneous
 *.class
 *.log
