@@ -1,13 +1,11 @@
 class ArtObject {
   String title;
+  String headerImageUrl;
 
-  ArtObject(this.title);
+  ArtObject(this.title, this.headerImageUrl);
 
   ArtObject.fromJson(
     Map<String, dynamic> json,
-  ) : title = json['title'];
-
-  Map<String, dynamic> toJson() => {
-        'title': title,
-      };
+  )   : title = json['title'],
+        headerImageUrl = json['headerImage']['url'];
 }

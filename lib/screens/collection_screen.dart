@@ -32,22 +32,36 @@ class _CollectionScreenState extends State<CollectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Consumer<CollectionModel>(builder: (context, model, child) {
         return RefreshIndicator(
           onRefresh: _pullToRefresh,
-          child: ListView.builder(
-            itemCount: model.artObjects.length,
-            itemBuilder: (context, index) {
-              return Container(
-                height: 100,
-                child: Text(
-                  model.artObjects[index].title,
-                  style: TextStyle(fontSize: 18),
-                ),
-              );
-            },
-            controller: _scrollController,
+          child: Container(
+            color: Colors.brown,
+            child: ListView.builder(
+              itemCount: model.artObjects.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    height: 250,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                            model.artObjects[index].headerImageUrl),
+                      ),
+                    ),
+                    child: Text(
+                      model.artObjects[index].title,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                );
+              },
+              controller: _scrollController,
+            ),
           ),
         );
       }),
