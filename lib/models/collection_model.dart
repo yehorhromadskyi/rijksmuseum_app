@@ -16,11 +16,10 @@ class CollectionModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future load() async {
-    _page = 0;
     _isLoading = true;
+    _page = 0;
 
-    var response = await _apiService.get();
-    var artObjects = _parseResponse(response);
+    List<ArtObject> artObjects = await _fetchCollection(_page);
     _artObjects = artObjects;
 
     notifyListeners();
@@ -31,19 +30,26 @@ class CollectionModel extends ChangeNotifier {
     _isLoading = true;
     _page++;
 
-    var response = await _apiService.get(page: _page);
-    var artObjects = _parseResponse(response);
+    List<ArtObject> artObjects = await _fetchCollection(_page);
     _artObjects.addAll(artObjects);
 
     notifyListeners();
     _isLoading = false;
   }
 
-  List<ArtObject> _parseResponse(dynamic response) {
-    var artObjects = (response['artObjects'] as List<dynamic>)
-        .map((e) => ArtObject.fromJson(e))
-        .toList();
+  Future<List<ArtObject>> _fetchCollection(int page) async {
+    try {
+      var response = await _apiService.fetchCollection(page: page);
 
-    return artObjects;
+      List<ArtObject> artObjects = (response['artObjects'] as List<dynamic>)
+          .map((e) => ArtObject.fromJson(e))
+          .toList();
+
+      return artObjects;
+    } catch (e) {
+      // log exception
+      // distinguish between FetchException and any other type of Exception
+      return [];
+    }
   }
 }

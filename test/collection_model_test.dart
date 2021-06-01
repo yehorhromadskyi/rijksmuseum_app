@@ -14,7 +14,7 @@ void main() {
     var body = "{ \"artObjects\":[{\"title\": \"Title\"}] }";
     var emptyBody = "{ \"artObjects\":[] }";
     var mockService = MockApiService();
-    when(mockService.get(page: anyNamed('page')))
+    when(mockService.fetchCollection(page: anyNamed('page')))
         .thenAnswer((_) async => jsonDecode(body));
 
     test('initial fetch returns 1 item', () async {
@@ -39,12 +39,23 @@ void main() {
 
       await model.load();
 
-      when(mockService.get(page: anyNamed('page')))
+      when(mockService.fetchCollection(page: anyNamed('page')))
           .thenAnswer((_) async => jsonDecode(emptyBody));
 
       await model.loadMore();
 
       expect(model.artObjects.length, 1);
+    });
+
+    test('fetch exception gets thrown', () async {
+      final model = CollectionModel(mockService);
+
+      when(mockService.fetchCollection(page: anyNamed('page')))
+          .thenThrow(FetchException());
+
+      await model.load();
+
+      expect(model.artObjects.length, 0);
     });
   });
 }
