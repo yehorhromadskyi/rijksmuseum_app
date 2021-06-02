@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rijksmuseum_app/models/details_model.dart';
 import 'package:rijksmuseum_app/styles/colors.dart';
+import 'package:rijksmuseum_app/styles/text_styles.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -27,8 +28,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: darkColor,
       appBar: AppBar(
-        backgroundColor: accentColor,
+        backgroundColor: darkColor,
+        brightness: Brightness.light,
       ),
       body: Consumer<DetailsModel>(
         builder: (context, model, child) {
@@ -53,9 +56,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         controller: PageController(viewportFraction: 0.9),
                         children: [
                           Container(
-                            child: Text(model.descriptionDutch),
+                            padding: EdgeInsets.only(right: 8.0),
+                            child: Text(model.descriptionDutch,
+                                style: detailsScreenStyle),
                           ),
-                          Container(child: Text(model.descriptionEnglish)),
+                          Container(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              model.descriptionEnglish,
+                              style: detailsScreenStyle,
+                            ),
+                          ),
                         ],
                       )),
                     )
@@ -63,8 +74,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 );
               } else if (snapshot.hasError) {
                 return Center(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Text(
-                        'Oops! It’s not you. It’s us. Give it another try, please. '));
+                      'Oops! It’s not you. It’s us. Give it another try, please. ',
+                      style: detailsScreenStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
               } else {
                 return Center(child: CircularProgressIndicator());
               }
