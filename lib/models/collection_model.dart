@@ -10,17 +10,17 @@ class CollectionModel extends ChangeNotifier {
   List<ArtObject> _artObjects = [];
   List<ArtObject> get artObjects => _artObjects;
 
-  int _page = 0;
+  int _page;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   Future load() async {
     _isLoading = true;
-    _page = 0;
+    _page = 1;
 
-    List<ArtObject> artObjects = await _fetchCollection(_page);
-    _artObjects = artObjects;
+    List<ArtObject> newArtObjects = await _fetchCollection(_page);
+    _artObjects = newArtObjects;
 
     notifyListeners();
     _isLoading = false;
@@ -30,8 +30,8 @@ class CollectionModel extends ChangeNotifier {
     _isLoading = true;
     _page++;
 
-    List<ArtObject> artObjects = await _fetchCollection(_page);
-    _artObjects.addAll(artObjects);
+    List<ArtObject> newArtObjects = await _fetchCollection(_page);
+    _artObjects.addAll(newArtObjects);
 
     notifyListeners();
     _isLoading = false;

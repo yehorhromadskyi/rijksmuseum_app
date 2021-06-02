@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rijksmuseum_app/models/collection_model.dart';
+import 'package:rijksmuseum_app/styles/colors.dart';
+import 'package:rijksmuseum_app/widgets/art_object_card.dart';
 
 class CollectionScreen extends StatefulWidget {
   const CollectionScreen({Key key}) : super(key: key);
@@ -36,29 +38,16 @@ class _CollectionScreenState extends State<CollectionScreen> {
         return RefreshIndicator(
           onRefresh: _pullToRefresh,
           child: Container(
-            color: Colors.brown,
+            color: darkColor,
             child: ListView.builder(
               itemCount: model.artObjects.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    height: 250,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                            model.artObjects[index].headerImageUrl),
-                      ),
-                    ),
-                    child: Text(
-                      model.artObjects[index].title,
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                );
+                    padding: const EdgeInsets.all(10.0),
+                    child: ArtObjectCard(
+                        model.artObjects[index].objectNumber,
+                        model.artObjects[index].title,
+                        model.artObjects[index].headerImageUrl));
               },
               controller: _scrollController,
             ),

@@ -1,11 +1,13 @@
 class ArtObject {
+  String objectNumber;
   String title;
   String headerImageUrl;
 
-  ArtObject(this.title, this.headerImageUrl);
+  ArtObject(this.objectNumber, this.title, this.headerImageUrl);
 
   ArtObject.fromJson(
     Map<String, dynamic> json,
-  )   : title = json['title'],
+  )   : objectNumber = json['objectNumber'],
+        title = json['title'],
         headerImageUrl = json['headerImage']['url'];
 }
