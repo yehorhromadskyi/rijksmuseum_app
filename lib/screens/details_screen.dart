@@ -35,7 +35,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           return FutureBuilder(
             future: _loadFuture,
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
                 return Column(
                   children: [
                     Expanded(
@@ -61,6 +61,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     )
                   ],
                 );
+              } else if (snapshot.hasError) {
+                return Center(
+                    child: Text(
+                        'Oops! It’s not you. It’s us. Give it another try, please. '));
               } else {
                 return Center(child: CircularProgressIndicator());
               }

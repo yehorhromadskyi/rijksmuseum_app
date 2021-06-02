@@ -17,7 +17,6 @@ class DetailsModel extends ChangeNotifier {
   String get descriptionEnglish => _descriptionEnglish;
 
   Future<ArtObjectDetails> load(String objectNumber) async {
-    try {
       var response = await _apiService.fetchDetails(objectNumber: objectNumber);
 
       ArtObjectDetails artObjectDetails =
@@ -30,8 +29,5 @@ class DetailsModel extends ChangeNotifier {
       notifyListeners();
 
       return artObjectDetails;
-    } catch (e) {
-      return ArtObjectDetails('');
-    }
   }
 }

@@ -7,28 +7,33 @@ const baseUrl = 'https://www.rijksmuseum.nl/api/';
 
 class ApiService {
   Future fetchCollection({int page = 0}) async {
-    var response = await http
-        .get(Uri.parse('$baseUrl/en/collection?key=$kApiKey&ps=20&p=$page'));
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      // candidate for future improvements, like handling different status codes
-      // and throwing specific types of exceptions, e.g. BadRequestException etc.
-      throw FetchException();
-    }
+    var url = '$baseUrl/en/collection?key=$kApiKey&ps=20&p=$page';
+    return sendRequest(url);
   }
 
   Future fetchDetails({String objectNumber}) async {
-    var response = await http
-        .get(Uri.parse('$baseUrl/en/collection/$objectNumber?key=$kApiKey'));
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      // candidate for future improvements, like handling different status codes
-      // and throwing specific types of exceptions, e.g. BadRequestException etc.
-      throw FetchException();
+    var url = '$baseUrl/en/collection/$objectNumber?key=$kApiKey';
+    return sendRequest(url);
+  }
+
+  Future sendRequest(String url) async {
+    var response = await http.get(Uri.parse(url));
+
+    switch (response.statusCode) {
+      case 200:
+        return jsonDecode(response.body);
+      case 400:
+        throw BadRequestException();
+      case 500:
+        throw InternalServerException();
+      default:
+        throw FetchException();
     }
   }
 }
 
 class FetchException implements Exception {}
+
+class BadRequestException implements Exception {}
+
+class InternalServerException implements Exception {}
