@@ -17,6 +17,7 @@ dependencies:
   provider: ^5.0.0
   http: ^0.13.3
   mockito: ^5.0.9
+  transparent_image: ^2.0.0
 
 
 dev_dependencies:

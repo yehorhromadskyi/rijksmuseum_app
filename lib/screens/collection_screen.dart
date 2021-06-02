@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rijksmuseum_app/models/collection_model.dart';
+import 'package:rijksmuseum_app/models/details_model.dart';
+import 'package:rijksmuseum_app/screens/details_screen.dart';
+import 'package:rijksmuseum_app/services/api_service.dart';
 import 'package:rijksmuseum_app/styles/colors.dart';
 import 'package:rijksmuseum_app/widgets/art_object_card.dart';
 
@@ -43,11 +46,27 @@ class _CollectionScreenState extends State<CollectionScreen> {
               itemCount: model.artObjects.length,
               itemBuilder: (context, index) {
                 return Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ChangeNotifierProvider<DetailsModel>(
+                              create: (context) => DetailsModel(ApiService()),
+                              child: DetailsScreen(
+                                  model.artObjects[index].objectNumber),
+                            ),
+                          ));
+                    },
                     child: ArtObjectCard(
-                        model.artObjects[index].objectNumber,
-                        model.artObjects[index].title,
-                        model.artObjects[index].headerImageUrl));
+                      model.artObjects[index].objectNumber,
+                      model.artObjects[index].title,
+                      model.artObjects[index].headerImageUrl,
+                    ),
+                  ),
+                );
               },
               controller: _scrollController,
             ),

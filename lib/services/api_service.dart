@@ -17,6 +17,18 @@ class ApiService {
       throw FetchException();
     }
   }
+
+  Future fetchDetails({String objectNumber}) async {
+    var response = await http
+        .get(Uri.parse('$baseUrl/en/collection/$objectNumber?key=$kApiKey'));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      // candidate for future improvements, like handling different status codes
+      // and throwing specific types of exceptions, e.g. BadRequestException etc.
+      throw FetchException();
+    }
+  }
 }
 
 class FetchException implements Exception {}
