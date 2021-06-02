@@ -11,7 +11,8 @@ import 'collection_model_test.mocks.dart';
 @GenerateMocks([ApiService])
 void main() {
   group('When loading collection data', () {
-    var body = "{ \"artObjects\":[{\"title\": \"Title\"}] }";
+    var body =
+        "{ \"artObjects\":[{\"title\": \"Title\", \"objectNumber\": \"number\", \"headerImage\": {\"url\" :\"url\"}}] }";
     var emptyBody = "{ \"artObjects\":[] }";
     var mockService = MockApiService();
     when(mockService.fetchCollection(page: anyNamed('page')))
